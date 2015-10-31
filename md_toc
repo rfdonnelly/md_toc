@@ -28,7 +28,7 @@ class TOC
 
   def to_s
     s = [
-      "# Table of Contents",
+      "## Table of Contents",
       "",
       *@entries.map(&:to_s)
     ].join("\n")
@@ -53,7 +53,7 @@ class Document
   def add_heading(level, id, heading)
     link = linkify(id)
     add_line("#{level} <div id='#{link}'/> #{id}: #{heading}")
-    @toc.add_entry(level.count('#') - 1, "#{id}: #{heading}", link)
+    @toc.add_entry(level.count('#') - 2, "#{id}: #{heading}", link)
   end
 
   def to_s
@@ -72,7 +72,7 @@ def main(argv)
 
   filename = argv[0]
   File.open(filename).each do |line|
-    if line.match(/^# Table of Contents$/)
+    if line.match(/^#+ Table of Contents$/)
       in_toc = true
     elsif in_toc && line.match(/^#/)
       in_toc = false
